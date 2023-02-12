@@ -143,9 +143,33 @@ For QR codes:
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
+### Callbacks example usage
+```kotlin
+  cameraxManager?.apply {
+      setQrReadSuccessListener { result ->
+          println("QR RESULT ----------> $result")
+          tvReadResult.text = result
+      }
 
+      setFlashStatusChangedListener { status ->
+          when (status) {
+              FlashStatus.ENABLED -> {
+                  btnFlash.setBackgroundResource(R.drawable.baseline_flash_on_24)
+              }
+              FlashStatus.DISABLED -> {
+                  btnFlash.setBackgroundResource(R.drawable.baseline_flash_off_24)
+              }
+          }
+      }
 
-
+      setPhotoCaptureResultListener { capturedBitmap ->
+          runOnUiThread {
+              ivCapturePreview.setImageBitmap(capturedBitmap)
+          }
+      }
+  }
+```
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
