@@ -107,7 +107,7 @@ No need to waste time on CameraX and ML Kit app anymore. This library will speed
    ```kotlin
     cameraxManager.startCamera()
    ```
-2. How to start barcode reading
+2. How to start barcode reading?
    ```kotlin
     cameraxManager?.setReaderFormats(
             ReaderType.FORMAT_QR_CODE.value,
@@ -120,12 +120,26 @@ No need to waste time on CameraX and ML Kit app anymore. This library will speed
     cameraxManager?.startReading()
    ```
    
-3. How to stop reading and camera
+3. How to stop reading and camera?
    ```kotlin
     cameraxManager?.stopReading()
     cameraxManager?.stopCamera()
    ```
-   
+
+4. How to change flash status?
+   ```kotlin
+    cameraxManager.changeFlashStatus()
+   ```
+
+5. How to change camera type (front-back)?
+   ```kotlin
+    cameraxManager.changeCameraType()
+   ```
+6. How to capture photo?
+   ```kotlin
+    cameraxManager?.capturePhoto()
+   ```
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 #### Suggestions for Reader Formats
