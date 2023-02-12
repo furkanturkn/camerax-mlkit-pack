@@ -33,7 +33,6 @@ android {
 }
 
 dependencies {
-    implementation project(':camerax-mlkit-pack')
     //Default implementations
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.6.0'
@@ -46,4 +45,6 @@ dependencies {
     //Extra implementations
     implementation "androidx.camera:camera-view:1.2.1"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.5.1"
+
+    implementation 'com.github.furkanturkn:camerax-mlkit-pack:1.0'
 }

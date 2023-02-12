@@ -45,7 +45,7 @@ import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 
-class MlKitReaderManager(
+class CameraxManager(
     context: Context,
     previewView: PreviewView,
     focusRing: ImageView,
@@ -116,7 +116,7 @@ class MlKitReaderManager(
     companion object {
         @SuppressLint("StaticFieldLeak")
         @Volatile
-        private var INSTANCE: MlKitReaderManager? = null
+        private var INSTANCE: CameraxManager? = null
 
         fun getInstance(
             context: Context,
@@ -126,7 +126,7 @@ class MlKitReaderManager(
             accuracyLevel: Int = Constants.BARCODE_ACCURACY_DEFAULT_COUNT
         ) = INSTANCE
             ?: synchronized(this) {
-                INSTANCE ?: MlKitReaderManager(
+                INSTANCE ?: CameraxManager(
                     context,
                     previewView,
                     focusRing,
