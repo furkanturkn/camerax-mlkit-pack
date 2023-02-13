@@ -185,7 +185,7 @@ class CameraxManager(
 
     fun setReaderFormats(@BarcodeFormat vararg moreFormats: Int) {
         val firstBarcodeFormat = moreFormats[0]
-        if (firstBarcodeFormat == Barcode.FORMAT_QR_CODE) {
+        if (firstBarcodeFormat == Barcode.FORMAT_QR_CODE && moreFormats.size == 1) {
             setReadingAccuracyLevel(1)
         }
         moreFormats.drop(1)
