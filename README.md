@@ -137,9 +137,17 @@ No need to waste time on CameraX and ML Kit app anymore. This library will speed
    ```
 6. How to capture photo?
    ```kotlin
-    cameraxManager?.capturePhoto()
+    cameraxManager.capturePhoto()
    ```
-
+6. How to change accuracy level of barcode reading?
+   ```kotlin
+     cameraxManager.setReadingAccuracyLevel(levelOfAccuracy)
+   ```
+   levelOfAccuracy = <b>1</b> (Less accurate, fastest level. If you select only QR type the accuracy level is automatically set to 1.)<br>
+   levelOfAccuracy = <b>2</b> (Minimum requirement for correct barcode reading.)<br>
+   levelOfAccuracy = <b>3</b> (<b>Recommended and default</b> accuracy level.)
+   
+   
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 #### Suggestions for Reader Formats
