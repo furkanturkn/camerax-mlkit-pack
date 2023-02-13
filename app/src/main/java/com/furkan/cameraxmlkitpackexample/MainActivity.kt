@@ -12,7 +12,7 @@ import androidx.camera.view.PreviewView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
-import com.furkan.camerax_mlkit_pack.MlKitReaderManager
+import com.furkan.camerax_mlkit_pack.CameraxManager
 import com.furkan.camerax_mlkit_pack.core.ReaderType
 import com.furkan.camerax_mlkit_pack.core.state.FlashStatus
 import kotlinx.coroutines.Dispatchers
@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
 
     private val REQUEST_CODE_PERMISSIONS = 10
 
-    private var mlKitReader: MlKitReaderManager? = null
+    private var cameraxManager: CameraxManager? = null
     private lateinit var previewView: PreviewView
     private lateinit var focusRing: ImageView
     private lateinit var btnFlash: Button
@@ -48,33 +48,33 @@ class MainActivity : AppCompatActivity() {
         checkCameraPermission()
 
         btnFlash.setOnClickListener {
-            mlKitReader?.changeFlashStatus()
+            cameraxManager?.changeFlashStatus()
         }
 
         btnChangeCameraType.setOnClickListener {
-            mlKitReader?.changeCameraType()
+            cameraxManager?.changeCameraType()
         }
 
         btnCapturePhoto.setOnClickListener {
             lifecycleScope.launch(Dispatchers.IO) {
-                mlKitReader?.capturePhoto()
+                cameraxManager?.capturePhoto()
             }
         }
 
         btnStartCamera.setOnClickListener {
-            mlKitReader?.startCamera()
+            cameraxManager?.startCamera()
         }
 
         btnStopCamera.setOnClickListener {
-            mlKitReader?.stopCamera()
+            cameraxManager?.stopCamera()
         }
 
         btnStartReading.setOnClickListener {
-            mlKitReader?.startReading()
+            cameraxManager?.startReading()
         }
 
         btnStopReading.setOnClickListener {
-            mlKitReader?.stopReading()
+            cameraxManager?.stopReading()
         }
 
     }
@@ -104,16 +104,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initCameraManager() {
-        mlKitReader = MlKitReaderManager.getInstance(
+        cameraxManager = CameraxManager.getInstance(
             this,
             previewView,
             focusRing,
             1
         )
-        mlKitReader?.startCamera()
+        cameraxManager?.startCamera()
 
-        mlKitReader?.startReading()
-        mlKitReader?.setReaderFormats(
+        cameraxManager?.setReaderFormats(
             ReaderType.FORMAT_QR_CODE.value,
             ReaderType.FORMAT_EAN_8.value,
             ReaderType.FORMAT_EAN_13.value,
@@ -121,7 +120,10 @@ class MainActivity : AppCompatActivity() {
             ReaderType.FORMAT_UPC_A.value,
             ReaderType.FORMAT_AZTEC.value
         )
-        mlKitReader?.apply {
+        cameraxManager?.startReading()
+
+
+        cameraxManager?.apply {
             setQrReadSuccessListener { result ->
                 println("QR RESULT ----------> $result")
                 tvReadResult.text = result
@@ -148,7 +150,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        mlKitReader?.destroyReferences()
+        cameraxManager?.destroyReferences()
     }
 
     //[START] Permission Check
