@@ -74,7 +74,7 @@ No need to waste time on CameraX and ML Kit app anymore. This library will speed
    ```sh
    dependencies {
        ...
-       implementation 'com.github.furkanturkn:camerax-mlkit-pack:1.0.3'
+       implementation 'com.github.furkanturkn:camerax-mlkit-pack:1.0.4'
    }
    ```
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
