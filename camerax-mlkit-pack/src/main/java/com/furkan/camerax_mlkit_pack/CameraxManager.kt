@@ -148,10 +148,10 @@ class CameraxManager(
     }
 
     fun startCamera() {
-        addCameraProviderFeatureListener()
         if(cameraExecutor.isShutdown || cameraExecutor.isTerminated) {
             cameraExecutor = Executors.newSingleThreadExecutor()
         }
+        addCameraProviderFeatureListener()
     }
 
     fun stopCamera() {
