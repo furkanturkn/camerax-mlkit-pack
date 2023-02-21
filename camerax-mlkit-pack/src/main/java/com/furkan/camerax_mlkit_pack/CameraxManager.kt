@@ -19,6 +19,7 @@ import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import com.furkan.camerax_mlkit_pack.core.Constants
 import com.furkan.camerax_mlkit_pack.core.Constants.CAMERA_RESOLUTION_HEIGHT
@@ -47,6 +48,7 @@ import java.util.concurrent.TimeUnit
 
 class CameraxManager(
     context: Context,
+    fragment: Fragment?,
     previewView: PreviewView,
     focusRing: ImageView,
     cameraSelectorType: Int? = CameraSelector.LENS_FACING_BACK,
@@ -54,6 +56,7 @@ class CameraxManager(
 ) {
 
     private var mContext = context
+    private var mFragment = fragment
     private var mPreviewView = previewView
     private var mFocusRing = focusRing
     private var cameraControl: CameraControl? = null
@@ -120,6 +123,7 @@ class CameraxManager(
 
         fun getInstance(
             context: Context,
+            fragment: Fragment,
             previewView: PreviewView,
             focusRing: ImageView,
             cameraSelectorType: Int? = CameraSelector.LENS_FACING_BACK,
@@ -128,6 +132,7 @@ class CameraxManager(
             ?: synchronized(this) {
                 INSTANCE ?: CameraxManager(
                     context,
+                    fragment,
                     previewView,
                     focusRing,
                     cameraSelectorType,
@@ -148,7 +153,7 @@ class CameraxManager(
     }
 
     fun startCamera() {
-        if(cameraExecutor.isShutdown || cameraExecutor.isTerminated) {
+        if (cameraExecutor.isShutdown || cameraExecutor.isTerminated) {
             cameraExecutor = Executors.newSingleThreadExecutor()
         }
         addCameraProviderFeatureListener()
@@ -352,10 +357,18 @@ class CameraxManager(
         preview.setSurfaceProvider(mPreviewView.surfaceProvider)
 
         cameraProvider.unbindAll()
-        val camera: Camera = cameraProvider.bindToLifecycle(
-            (mContext as LifecycleOwner), cameraSelector!!,
-            imageAnalysisUseCase, preview, imageCaptureBuilder
-        )
+        val camera: Camera = if (mFragment != null) {
+            cameraProvider.bindToLifecycle(
+                (mFragment as LifecycleOwner), cameraSelector!!,
+                imageAnalysisUseCase, preview, imageCaptureBuilder
+            )
+        } else {
+            cameraProvider.bindToLifecycle(
+                (mContext as LifecycleOwner), cameraSelector!!,
+                imageAnalysisUseCase, preview, imageCaptureBuilder
+            )
+        }
+
         cameraControl = camera.cameraControl
     }
 
