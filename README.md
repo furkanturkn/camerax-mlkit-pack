@@ -74,7 +74,7 @@ No need to waste time on CameraX and ML Kit app anymore. This library will speed
    ```sh
    dependencies {
        ...
-       implementation 'com.github.furkanturkn:camerax-mlkit-pack:1.0.7'
+       implementation 'com.github.furkanturkn:camerax-mlkit-pack:1.0.8'
    }
    ```
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -83,13 +83,23 @@ No need to waste time on CameraX and ML Kit app anymore. This library will speed
 ### Implementation
 
 1. Get camera permission.
-2. Init CameraxManager
+2. Init CameraxManager for activity
     ```kotlin
     cameraxManager = CameraxManager.getInstance(
             this, 
             previewView, 
             focusRing, //(ImageView) image that appears with focus animation when clicked on the screen.
-            1 //(Int)(optional) start with FRONT[1] or BACK[0] camera. Default = BACK[0].
+            1 //(Int)(optional) start with FRONT[0] or BACK[1] camera. Default = BACK[1].
+        )
+    ```
+   Init CameraxManager for fragment
+    ```kotlin
+    cameraxManager = CameraxManager.getInstance(
+            context,
+            this,
+            previewView, 
+            focusRing, //(ImageView) image that appears with focus animation when clicked on the screen.
+            1 //(Int)(optional) start with FRONT[0] or BACK[1] camera. Default = BACK[1].
         )
     ```
 2. Destroy references.
