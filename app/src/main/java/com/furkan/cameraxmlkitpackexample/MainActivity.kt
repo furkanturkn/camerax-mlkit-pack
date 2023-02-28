@@ -66,7 +66,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         btnStopCamera.setOnClickListener {
-            cameraxManager?.stopCamera()
+            cameraxManager?.destroyReferences()
         }
 
         btnStartReading.setOnClickListener {
@@ -106,6 +106,7 @@ class MainActivity : AppCompatActivity() {
     private fun initCameraManager() {
         cameraxManager = CameraxManager.getInstance(
             this,
+            null,
             previewView,
             focusRing,
             1

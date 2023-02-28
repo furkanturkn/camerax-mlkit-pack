@@ -123,7 +123,7 @@ class CameraxManager(
 
         fun getInstance(
             context: Context,
-            fragment: Fragment,
+            fragment: Fragment?,
             previewView: PreviewView,
             focusRing: ImageView,
             cameraSelectorType: Int? = CameraSelector.LENS_FACING_BACK,
