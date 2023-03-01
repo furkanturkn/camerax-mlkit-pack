@@ -177,6 +177,7 @@ class CameraxManager(
         stopCamera()
         cameraExecutor.shutdown()
         barcodeScanner?.close()
+        INSTANCE = null
     }
 
     fun changeCameraType() {
