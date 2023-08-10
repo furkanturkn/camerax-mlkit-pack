@@ -14,7 +14,7 @@
   <h3 align="center">CameraX ML Kit Pack</h3>
 
   <p align="center">
-    An awsome library that contains ML Kit and Camrax implementation!
+    An awsome library that contains ML Kit and Camrax implementation! You don't need ZXing anymore.
     <br />
     <a href="https://github.com/furkanturkn/camerax-mlkit-pack/issues">Report Bug</a>
     ·
@@ -50,6 +50,7 @@ No need to waste time on CameraX and ML Kit app anymore. This library will speed
 * Ml-Kit barcode scanning with accuracy algorithm.
 * Flash, tap to focus, switch back-front camera.
 * Stop-start ML Kit barcode reading and camera.
+* Run **without** google play services
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
