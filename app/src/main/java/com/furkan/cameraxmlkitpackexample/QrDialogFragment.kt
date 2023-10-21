@@ -3,21 +3,28 @@ package com.furkan.cameraxmlkitpackexample
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.furkan.camerax_mlkit_pack.CameraxManager
 import com.furkan.camerax_mlkit_pack.core.ReaderType
 import com.furkan.camerax_mlkit_pack.core.state.FlashStatus
-import kotlinx.android.synthetic.main.fragment_qr_dialog.*
-import kotlinx.android.synthetic.main.fragment_qr_dialog.view.*
+import com.furkan.cameraxmlkitpackexample.MainActivity.Companion.REQUEST_CODE_PERMISSIONS
+import kotlinx.android.synthetic.main.fragment_qr_dialog.view.btnCapturePhotoFragment
+import kotlinx.android.synthetic.main.fragment_qr_dialog.view.btnChangeCameraTypeFragment
+import kotlinx.android.synthetic.main.fragment_qr_dialog.view.btnFlashFragment
+import kotlinx.android.synthetic.main.fragment_qr_dialog.view.btnStartCameraFragment
+import kotlinx.android.synthetic.main.fragment_qr_dialog.view.btnStartReadingFragment
+import kotlinx.android.synthetic.main.fragment_qr_dialog.view.btnStopCameraFragment
+import kotlinx.android.synthetic.main.fragment_qr_dialog.view.btnStopReadingFragment
+import kotlinx.android.synthetic.main.fragment_qr_dialog.view.focusRingFragment
+import kotlinx.android.synthetic.main.fragment_qr_dialog.view.ivCapturePreviewFragment
+import kotlinx.android.synthetic.main.fragment_qr_dialog.view.previewViewFragment
+import kotlinx.android.synthetic.main.fragment_qr_dialog.view.tvReadResultFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -25,14 +32,11 @@ import kotlinx.coroutines.launch
 class QrDialogFragment : DialogFragment(R.layout.fragment_qr_dialog) {
     private lateinit var rootView: View
 
+    private val requiredPermissions = mutableListOf(
+        Manifest.permission.CAMERA
+    ).toTypedArray()
+
     private var cameraxManager: CameraxManager? = null
-
-    private val REQUIRED_PERMISSIONS =
-        mutableListOf(
-            Manifest.permission.CAMERA
-        ).toTypedArray()
-
-    private val REQUEST_CODE_PERMISSIONS = 10
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -74,15 +78,8 @@ class QrDialogFragment : DialogFragment(R.layout.fragment_qr_dialog) {
 
         return rootView
     }
-    private fun checkCameraPermission() {
-        if (allPermissionsGranted()) {
-            initCameraManager(this)
-        } else {
-            requestPermissions(
-                REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS
-            )
-        }
-    }
+
+
     private fun initCameraManager(qrDialogFragment: QrDialogFragment) {
         cameraxManager = CameraxManager.getInstance(
             requireContext(),
@@ -115,6 +112,7 @@ class QrDialogFragment : DialogFragment(R.layout.fragment_qr_dialog) {
                     FlashStatus.ENABLED -> {
                         rootView.btnFlashFragment.setBackgroundResource(R.drawable.baseline_flash_on_24)
                     }
+
                     FlashStatus.DISABLED -> {
                         rootView.btnFlashFragment.setBackgroundResource(R.drawable.baseline_flash_off_24)
                     }
@@ -128,34 +126,33 @@ class QrDialogFragment : DialogFragment(R.layout.fragment_qr_dialog) {
             }
         }
     }
-    /*private fun checkCameraPermission() {
-        if (allPermissionsGranted()) {
-            initCameraManager(this)
-        } else {
-            ActivityCompat.requestPermissions(
-                this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS
-            )
-        }
-    }*/
-
-    override fun onStart() {
-        super.onStart()
-    }
 
     override fun onDestroy() {
         super.onDestroy()
         cameraxManager?.destroyReferences()
     }
-    //[START] Permission Check
-    private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
+
+    //region Permission Check
+    private fun checkCameraPermission() {
+        if (allPermissionsGranted()) {
+            initCameraManager(this)
+        } else {
+            requestPermissions(
+                requiredPermissions, REQUEST_CODE_PERMISSIONS
+            )
+        }
+    }
+
+    private fun allPermissionsGranted() = requiredPermissions.all {
         ContextCompat.checkSelfPermission(
             requireContext(), it
         ) == PackageManager.PERMISSION_GRANTED
     }
 
     override fun onRequestPermissionsResult(
-        requestCode: Int, permissions: Array<String>, grantResults:
-        IntArray
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == REQUEST_CODE_PERMISSIONS) {
@@ -164,13 +161,11 @@ class QrDialogFragment : DialogFragment(R.layout.fragment_qr_dialog) {
 
             } else {
                 Toast.makeText(
-                    requireContext(),
-                    "Permissions not granted by the user.",
-                    Toast.LENGTH_SHORT
+                    requireContext(), "Permissions not granted by the user.", Toast.LENGTH_SHORT
                 ).show()
             }
         }
     }
-    //[END] Permission Check
+    //endregion Permission Check
 
 }
