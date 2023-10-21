@@ -15,25 +15,25 @@ import androidx.lifecycle.lifecycleScope
 import com.furkan.camerax_mlkit_pack.CameraxManager
 import com.furkan.camerax_mlkit_pack.core.ReaderType
 import com.furkan.camerax_mlkit_pack.core.state.FlashStatus
+import com.furkan.cameraxmlkitpackexample.MainActivity.Companion.REQUEST_CODE_PERMISSIONS
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class QrActivity : AppCompatActivity() {
 
-    private val REQUIRED_PERMISSIONS =
+    private val requiredPermissions =
         mutableListOf(
             Manifest.permission.CAMERA
         ).toTypedArray()
 
-    private val REQUEST_CODE_PERMISSIONS = 10
-
     private var cameraxManager: CameraxManager? = null
+
     private lateinit var previewView: PreviewView
     private lateinit var focusRing: ImageView
     private lateinit var btnFlash: Button
     private lateinit var ivCapturePreview: ImageView
-    lateinit var btnCapturePhoto: Button
-    lateinit var btnChangeCameraType: Button
+    private lateinit var btnCapturePhoto: Button
+    private lateinit var btnChangeCameraType: Button
     private lateinit var btnStartCamera: Button
     private lateinit var btnStopCamera: Button
     private lateinit var btnStartReading: Button
@@ -79,16 +79,6 @@ class QrActivity : AppCompatActivity() {
 
     }
 
-    private fun checkCameraPermission() {
-        if (allPermissionsGranted()) {
-            initCameraManager()
-        } else {
-            ActivityCompat.requestPermissions(
-                this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS
-            )
-        }
-    }
-
     private fun initViews() {
         previewView = findViewById(R.id.previewView)
         focusRing = findViewById(R.id.focusRing)
@@ -104,6 +94,7 @@ class QrActivity : AppCompatActivity() {
     }
 
     private fun initCameraManager() {
+
         cameraxManager = CameraxManager.getInstance(
             this,
             null,
@@ -135,6 +126,7 @@ class QrActivity : AppCompatActivity() {
                     FlashStatus.ENABLED -> {
                         btnFlash.setBackgroundResource(R.drawable.baseline_flash_on_24)
                     }
+
                     FlashStatus.DISABLED -> {
                         btnFlash.setBackgroundResource(R.drawable.baseline_flash_off_24)
                     }
@@ -154,8 +146,18 @@ class QrActivity : AppCompatActivity() {
         cameraxManager?.destroyReferences()
     }
 
-    //[START] Permission Check
-    private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
+    //region Permission Check
+    private fun checkCameraPermission() {
+        if (allPermissionsGranted()) {
+            initCameraManager()
+        } else {
+            ActivityCompat.requestPermissions(
+                this, requiredPermissions, REQUEST_CODE_PERMISSIONS
+            )
+        }
+    }
+
+    private fun allPermissionsGranted() = requiredPermissions.all {
         ContextCompat.checkSelfPermission(
             baseContext, it
         ) == PackageManager.PERMISSION_GRANTED
@@ -179,5 +181,5 @@ class QrActivity : AppCompatActivity() {
             }
         }
     }
-    //[END] Permission Check
+    //endregion Permission Check
 }

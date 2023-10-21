@@ -24,30 +24,30 @@ import kotlin.coroutines.suspendCoroutine
 
 object Utils {
 
-    fun ImageView.setViewLocation(x: Float, y: Float) {
+    internal fun ImageView.setViewLocation(x: Float, y: Float) {
         val width = this.width
         val height = this.height
         this.x = x - width / 2
         this.y = y - height / 2
     }
 
-    fun ImageView.visible() {
+    internal fun ImageView.visible() {
         this.visibility = View.VISIBLE
         this.alpha = 1f
     }
 
-    fun ImageView.inVisible() {
+    internal fun ImageView.inVisible() {
         this.visibility = View.INVISIBLE
     }
 
-    fun ObjectAnimator.initAnimation() {
+    internal fun ObjectAnimator.initAnimation() {
         this.duration = 500
         this.repeatCount = ValueAnimator.RESTART
         this.repeatMode = ValueAnimator.REVERSE
     }
 
 
-    suspend fun ImageCapture.takePhoto(executor: Executor): File {
+    internal suspend fun ImageCapture.takePhoto(executor: Executor): File {
         val photoFile = withContext(Dispatchers.IO) {
             kotlin.runCatching {
                 File.createTempFile("image", "jpg")
@@ -76,7 +76,7 @@ object Utils {
         }
     }
 
-    fun Uri.convertToBitmap(contentResolver: ContentResolver, cameraType: Int): Bitmap {
+    internal fun Uri.convertToBitmap(contentResolver: ContentResolver, cameraType: Int): Bitmap {
         return MediaStore.Images.Media.getBitmap(contentResolver, this).rotateBitmap(cameraType)
     }
 

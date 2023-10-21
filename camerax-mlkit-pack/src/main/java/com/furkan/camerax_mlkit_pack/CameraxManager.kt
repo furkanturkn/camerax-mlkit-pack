@@ -81,7 +81,7 @@ class CameraxManager(
     private var cameraExecutor: ExecutorService
     private val imageCaptureBuilder: ImageCapture
 
-    //[START] Listeners
+    //region Listeners
     private var qrReadSuccessListener: ((String) -> Unit)? = null
     fun setQrReadSuccessListener(listener: (String) -> Unit) {
         qrReadSuccessListener = listener
@@ -114,7 +114,7 @@ class CameraxManager(
             capturedPhotoBitmap(captureResult)
         }
     }
-    //[END] Listeners
+    //endregion Listeners
 
     companion object {
         @SuppressLint("StaticFieldLeak")
@@ -185,6 +185,7 @@ class CameraxManager(
             CameraSelector.LENS_FACING_BACK -> {
                 mCameraSelectorType = CameraSelector.LENS_FACING_FRONT
             }
+
             CameraSelector.LENS_FACING_FRONT -> {
                 mCameraSelectorType = CameraSelector.LENS_FACING_BACK
             }
@@ -229,6 +230,7 @@ class CameraxManager(
                 cameraControl?.enableTorch(false)
                 sendFlashStatusChanged(FlashStatus.DISABLED)
             }
+
             FlashStatus.DISABLED -> {
                 flashStatus = FlashStatus.ENABLED
                 cameraControl?.enableTorch(true)
@@ -405,6 +407,7 @@ class CameraxManager(
                     cameraControl?.startFocusAndMetering(action)
                     return@setOnTouchListener true
                 }
+
                 else -> {
                     Log.d(MLKIT_READER_MANAGER_TAG, "other action")
                     return@setOnTouchListener false
